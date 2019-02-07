@@ -1,0 +1,58 @@
+﻿<Window x:Class="Pinger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:c="clr-namespace:Pinger"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pinger"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="289.125" Width="683">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+
+            <TextBox Name="FirstIpAddr" Width="190" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
+            <Label Content=" - "></Label>
+            <TextBox x:Name="LastIpAddr" Width="190" Height="22" MaxLength="16"></TextBox>
+            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="Button_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
+        </StackPanel>
+
+        <DataGrid x:Name="dgPingResult" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Host">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=HostName}" Width="Auto" MaxWidth="250"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Address">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Address}" Width="Auto"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Status">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Status}" Width="Auto"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delay">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Delay}" Width="Auto"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>
