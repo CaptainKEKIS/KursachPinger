@@ -4,55 +4,269 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:c="clr-namespace:Pinger"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:Pinger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="289.125" Width="683">
+        Title="MainWindow" Height="461.125" Width="745">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger 
+                    Binding="{Binding ElementName=TBStatus, Path=Text}"
+                     Value="TimedOut">
+                    <Setter Property="TextBlock.Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=TBStatus, Path=Text}"
+                        Value="DestinationHostUnreachable">
+                    <Setter Property="TextBlock.Foreground" Value="Red"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Exit"></MenuItem>
+                <MenuItem Header="Exit" Click="MenuItem_Click"/>
             </MenuItem>
+            <MenuItem Header="Настройки" Click="MenuSettings_Click"/>
         </Menu>
+        <TabControl x:Name="MainTabControl">
+            <TabItem x:Name="RangePingTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3" Text="Диапазон"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
+                            <TextBox  Name="FirstIpAddr" Width="190" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
+                            <Label>-</Label>
+                            <TextBox x:Name="LastIpAddr" Width="190" Height="22" MaxLength="16"></TextBox>
+                            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="Button_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
+                        </StackPanel>
 
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <DataGrid Grid.Row="1" x:Name="dgPingResult" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single" Margin="0">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Host" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=HostName}" Width="Auto" MaxWidth="250" Padding="6,2" Margin="0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Address">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Address}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Delay">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                            <Label>Sent:</Label>
+                            <Label x:Name="LSentRange"></Label>
+                            <Label>Received:</Label>
+                            <Label x:Name="LReceivedRange"></Label>
+                            <Label>Loss:</Label>
+                            <Label x:Name="LLossRange"></Label>
+                            <Label>Loss Rate:</Label>
+                            <Label x:Name="LbLossRateRange"></Label>
+                            <Label Height="20"></Label>
+                            <Label></Label>
+                            <Label>Min Time:</Label>
+                            <Label x:Name="LMinTimeRange"></Label>
+                            <Label>Max Time:</Label>
+                            <Label x:Name="LMaxTimeRange"></Label>
+                            <Label>Avg Time:</Label>
+                            <Label x:Name="LAvgTimeRange"></Label>
+                            <Label>Avg TTL:</Label>
+                            <Label x:Name="LAvgTTLRange"></Label>
+                        </WrapPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="SinglePingTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3" Text="Одиночный пинг"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
+                            <TextBox  Name="IpAddr" Width="190" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
+                            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="SingleIPButton_Click" Margin="10,0,0,0" ></Button>
+                        </StackPanel>
 
-            <TextBox Name="FirstIpAddr" Width="190" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
-            <Label Content=" - "></Label>
-            <TextBox x:Name="LastIpAddr" Width="190" Height="22" MaxLength="16"></TextBox>
-            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="Button_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
-        </StackPanel>
-
-        <DataGrid x:Name="dgPingResult" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Host">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=HostName}" Width="Auto" MaxWidth="250"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Address">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Address}" Width="Auto"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Status">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Status}" Width="Auto"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Delay">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Delay}" Width="Auto"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                        <DataGrid Grid.Row="1" x:Name="dgPingTable" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Host" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=HostName}" Width="Auto" MaxWidth="250" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Address">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Address}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Delay">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                            <Label>Sent:</Label>
+                            <Label x:Name="LSentSingle"></Label>
+                            <Label>Received:</Label>
+                            <Label x:Name="LReceivedSingle"></Label>
+                            <Label>Loss:</Label>
+                            <Label x:Name="LLossSingle"></Label>
+                            <Label>Loss Rate:</Label>
+                            <Label x:Name="LbLossRateSingle"></Label>
+                            <Label Height="20"></Label>
+                            <Label></Label>
+                            <Label>Min Time:</Label>
+                            <Label x:Name="LMinTimeSingle"></Label>
+                            <Label>Max Time:</Label>
+                            <Label x:Name="LMaxTimeSingle"></Label>
+                            <Label>Avg Time:</Label>
+                            <Label x:Name="LAvgTimeSingle"></Label>
+                            <Label>Avg TTL:</Label>
+                            <Label x:Name="LAvgTTLSingle"></Label>
+                        </WrapPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="SaveIPsPingTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3" Text="Сохраненные IP"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
+                            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="SavedButton_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
+                        </StackPanel>
+                        
+                        <DataGrid Grid.Row="1" x:Name="savedDGPingResult" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Название" Width="0.6*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Width="Auto" MaxWidth="250" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Host" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=HostName}" Width="Auto" MaxWidth="250" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Address">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Address}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock x:Name="TBStatus" Text="{Binding Path=Status}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Delay">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                            <Label>Sent:</Label>
+                            <Label x:Name="LSentSaved"></Label>
+                            <Label>Received:</Label>
+                            <Label x:Name="LReceivedSaved"></Label>
+                            <Label>Loss:</Label>
+                            <Label x:Name="LLossSaved"></Label>
+                            <Label>Loss Rate:</Label>
+                            <Label x:Name="LbLossRateSaved"></Label>
+                            <Label Height="20"></Label>
+                            <Label></Label>
+                            <Label>Min Time:</Label>
+                            <Label x:Name="LMinTimeSaved"></Label>
+                            <Label>Max Time:</Label>
+                            <Label x:Name="LMaxTimeSaved"></Label>
+                            <Label>Avg Time:</Label>
+                            <Label x:Name="LAvgTimeSaved"></Label>
+                            <Label>Avg TTL:</Label>
+                            <Label x:Name="LAvgTTLSaved"></Label>
+                        </WrapPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>

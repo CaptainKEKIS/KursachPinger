@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.ComponentModel;
@@ -32,7 +33,7 @@ namespace Pinger
             set
             {
                 _address = value;
-                OnPropertyChanged("Address");
+                OnPropertyChanged();
             }
         }
 
@@ -99,6 +100,7 @@ namespace Pinger
                 Addr.Address = newIp;
                 IpRange.Add(Addr);
             }
+
             return IpRange;
         }
 
@@ -112,35 +114,37 @@ namespace Pinger
 
         public void PingSender()
         {
-            int timeout = 9999;
+            int TimeOut = Properties.Settings.Default.TimeOut;
+            byte[] PingBuffer = new byte[8];
             Ping Piping = new Ping();
             try
             {
-                Reply = Piping.Send(_address, timeout);
-                _status = Reply.Status.ToString();
-
-                if (Reply.RoundtripTime.ToString() == "0" && Reply.Status.ToString() == "Success")
-                {
-                    _delay = "<1";
-                }
-                else
-                {
-                    _delay = Reply.RoundtripTime.ToString();
-                }
-
-                try
-                {
-                    _hostName = Dns.GetHostEntry(_address).HostName;
-                }
-                catch (Exception)
-                {
-                    //_hostName = "Mission Failed!";
-                    _hostName = _address.ToString();
-                }
+                Reply = Piping.Send(_address, TimeOut);
             }
             catch (Exception)
             {
-                _hostName = "Mission Failed!";
+                MessageBox.Show("Fatal error!!!");
+                return;
+            }
+            Status = Reply.Status.ToString();
+
+            if (Reply.RoundtripTime.ToString() == "0" && Reply.Status.ToString() == "Success")
+            {
+                Delay = "<1";
+            }
+            else
+            {
+                Delay = Reply.RoundtripTime.ToString();
+            }
+
+            try//TODO: Починить отображение имени хоста
+            {
+                HostName = Dns.GetHostEntry(_address).HostName;
+            }
+            catch (Exception)
+            {
+                //_hostName = "Mission Failed!";
+                HostName = _address.ToString();
             }
         }
     }
