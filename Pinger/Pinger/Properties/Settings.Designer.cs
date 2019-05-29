@@ -25,13 +25,25 @@ namespace Pinger.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1500")]
         public int TimeOut {
             get {
                 return ((int)(this["TimeOut"]));
             }
             set {
                 this["TimeOut"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("128")]
+        public int Ttl {
+            get {
+                return ((int)(this["Ttl"]));
+            }
+            set {
+                this["Ttl"] = value;
             }
         }
     }

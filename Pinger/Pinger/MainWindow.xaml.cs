@@ -36,12 +36,13 @@ namespace Pinger
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             IPAddress FirstIp;
             IPAddress LastIp;
             
             try
             {
-                FirstIp = IPAddress.Parse(FirstIpAddr.Text);
+                FirstIp = IPAddress.Parse(firstTB.Text);
             }
             catch (FormatException)
             {
@@ -51,26 +52,14 @@ namespace Pinger
 
             try
             {
-                LastIp = IPAddress.Parse(LastIpAddr.Text);
+                LastIp = IPAddress.Parse(lastTB.Text);
             }
             catch (FormatException)
             {
                 MessageBox.Show("Неправильно задан финальный IP-адрес диапазона", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            /*
-            byte[] firstIPAddressAsBytesArray = FirstIPAddress.GetAddressBytes();
-
-            byte[] lastIPAddressAsBytesArray = LastIPAddress.GetAddressBytes();
-
-            Array.Reverse(firstIPAddressAsBytesArray);
-
-            Array.Reverse(lastIPAddressAsBytesArray);
-
-            Int32 firstIPAddressAsInt = BitConverter.ToInt32(firstIPAddressAsBytesArray, 0);
-
-            Int32 lastIPAddressAsInt = BitConverter.ToInt32(lastIPAddressAsBytesArray, 0);
-            *///PEREMESTIT SUDA IZ CLASSA IP
+           
             //TODO:SDELAT PROVERKU DIAPAZONA FIRSTIP < LASTIP
 
             List<Ip> IPs = Ip.Range(FirstIp, LastIp);
@@ -79,6 +68,7 @@ namespace Pinger
             foreach(Ip ip in IPs)
             {
                 Task.Run(() => ip.PingSender());
+                
             }
         }
 
@@ -116,7 +106,7 @@ namespace Pinger
         {
             if ((sender as TextBox).Text.Length >= 3)
             {
-                LastIpAddr.Focus();
+                lastTB.Focus();
             }
         }
 

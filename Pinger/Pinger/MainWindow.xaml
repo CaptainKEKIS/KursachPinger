@@ -7,7 +7,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:Pinger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="461.125" Width="745">
+        Title="MainWindow" Height="461.125" Width="750">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Style.Triggers>
@@ -48,9 +48,9 @@
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
-                            <TextBox  Name="FirstIpAddr" Width="190" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
+                            <TextBox  Name="firstTB" Width="110" Height="22" MaxLength="16" Margin="5,0,0,0"></TextBox>
                             <Label>-</Label>
-                            <TextBox x:Name="LastIpAddr" Width="190" Height="22" MaxLength="16"></TextBox>
+                            <TextBox x:Name="lastTB" Width="110" Height="22" MaxLength="16"></TextBox>
                             <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="Button_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
                         </StackPanel>
 
@@ -63,30 +63,30 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Address">
+                                <DataGridTemplateColumn Header="Address" Width="110">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Path=Address}" Width="Auto" Padding="6,2"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Status">
+                                <DataGridTemplateColumn Header="Status" Width="180">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2"/>
+                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2" HorizontalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Delay">
+                                <DataGridTemplateColumn Header="Delay" Width="60">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2"/>
+                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2" HorizontalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="75" Margin="0">
                             <Label>Sent:</Label>
                             <Label x:Name="LSentRange"></Label>
                             <Label>Received:</Label>
@@ -139,30 +139,30 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Address">
+                                <DataGridTemplateColumn Header="Address" Width="110">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Path=Address}" Width="Auto" Padding="6,2"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Status">
+                                <DataGridTemplateColumn Header="Status" Width="180">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2"/>
+                                            <TextBlock Text="{Binding Path=Status}" Width="Auto" Padding="6,2" HorizontalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Delay">
+                                <DataGridTemplateColumn Header="Delay" Width="60">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2"/>
+                                            <TextBlock Text="{Binding Path=Delay}" Width="Auto" Padding="6,2" HorizontalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="75" Margin="0">
                             <Label>Sent:</Label>
                             <Label x:Name="LSentSingle"></Label>
                             <Label>Received:</Label>
@@ -244,7 +244,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="70" Margin="0">
+                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="75" Margin="0">
                             <Label>Sent:</Label>
                             <Label x:Name="LSentSaved"></Label>
                             <Label>Received:</Label>

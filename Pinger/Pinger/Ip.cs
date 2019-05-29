@@ -115,11 +115,14 @@ namespace Pinger
         public void PingSender()
         {
             int TimeOut = Properties.Settings.Default.TimeOut;
-            byte[] PingBuffer = new byte[8];
+            int Ttl = Properties.Settings.Default.Ttl;
+            PingOptions POptions = new PingOptions(Ttl, false);
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] PingBuffer = Encoding.ASCII.GetBytes(data);
             Ping Piping = new Ping();
             try
             {
-                Reply = Piping.Send(_address, TimeOut);
+                Reply = Piping.Send(_address, TimeOut, PingBuffer, POptions);
             }
             catch (Exception)
             {
@@ -136,7 +139,7 @@ namespace Pinger
             {
                 Delay = Reply.RoundtripTime.ToString();
             }
-
+            
             try//TODO: Починить отображение имени хоста
             {
                 HostName = Dns.GetHostEntry(_address).HostName;

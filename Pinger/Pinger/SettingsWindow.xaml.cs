@@ -23,17 +23,57 @@ namespace Pinger
         {
             InitializeComponent();
             TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
+            TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.TimeOut = Convert.ToInt32(TBTimeOut.Text);
-            Properties.Settings.Default.Save();
+            try
+            {
+                //Проверка таймаута
+                if (Convert.ToInt32(TBTimeOut.Text) <= 0)
+                {
+                    MessageBox.Show("Таймаут не может быть меньше или равным нулю!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
+                }
+                else if (Convert.ToInt32(TBTimeOut.Text) > 60000)
+                {
+                    MessageBox.Show("This is madness!!!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.TimeOut = Convert.ToInt32(TBTimeOut.Text);
+                }
+                //Проверка TTL
+                if (Convert.ToInt32(TBTtl.Text) <= 0)
+                {
+                    MessageBox.Show("TTL не может быть меньше или равным нулю!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
+                }
+                else if (Convert.ToInt32(TBTtl.Text) > 255)
+                {
+                    MessageBox.Show("TTL не может быть больше 255!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.Ttl = Convert.ToInt32(TBTtl.Text);
+                }
+                //Сохранение
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
+                TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
+            }
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            this.Close();
         }
     }
 }
