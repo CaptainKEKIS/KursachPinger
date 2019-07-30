@@ -86,7 +86,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <WrapPanel Grid.Column="1" Grid.Row="1" ItemWidth="75" Margin="0">
+                        <WrapPanel x:Name="WPRangeStat" Grid.Column="1" Grid.Row="1" ItemWidth="75" Margin="0">
                             <Label>Sent:</Label>
                             <Label x:Name="LSentRange"></Label>
                             <Label>Received:</Label>
@@ -103,8 +103,6 @@
                             <Label x:Name="LMaxTimeRange"></Label>
                             <Label>Avg Time:</Label>
                             <Label x:Name="LAvgTimeRange"></Label>
-                            <Label>Avg TTL:</Label>
-                            <Label x:Name="LAvgTTLRange"></Label>
                         </WrapPanel>
                     </Grid>
                 </TabItem.Content>
@@ -202,7 +200,9 @@
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
-                            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="SavedButton_Click" Margin="10,0,0,0" PreviewTextInput="MyTextBox_PreviewTextInput"></Button>
+                            <Button Height="22" Content="НУ ЧЕ НАРОД ПОГНАЛИ!!!" Click="SavedButton_Click" Margin="10,0,0,0"/>
+                            <Button Height="22" x:Name="AddHost" Content="Добавить хост" Click="AddHost_Click" Margin="10 0,0,0"/>
+                            <Button Height="22" x:Name="DeleteHost" Content="Удалить хост" Click="DeleteHost_Click" Margin="10 0,0,0"/>
                         </StackPanel>
                         
                         <DataGrid Grid.Row="1" x:Name="savedDGPingResult" AutoGenerateColumns="False" GridLinesVisibility="None" AlternatingRowBackground="#FFEEEEEE" CanUserAddRows="False" Padding="6,3" IsReadOnly="True" SelectionMode="Single">

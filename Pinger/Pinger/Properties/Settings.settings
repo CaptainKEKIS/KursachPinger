@@ -8,5 +8,8 @@
     <Setting Name="Ttl" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">128</Value>
     </Setting>
+    <Setting Name="DataSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

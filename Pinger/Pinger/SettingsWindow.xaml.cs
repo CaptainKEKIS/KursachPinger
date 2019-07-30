@@ -24,6 +24,7 @@ namespace Pinger
             InitializeComponent();
             TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
             TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
+            TBDataSize.Text = Properties.Settings.Default.DataSize.ToString();
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
@@ -60,6 +61,21 @@ namespace Pinger
                 {
                     Properties.Settings.Default.Ttl = Convert.ToInt32(TBTtl.Text);
                 }
+                //Проверка DataSize
+                if (Convert.ToInt32(TBDataSize.Text) <= 0)
+                {
+                    MessageBox.Show("Data Size не может быть меньше или равным нулю!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBDataSize.Text = Properties.Settings.Default.DataSize.ToString();
+                }
+                else if (Convert.ToInt32(TBDataSize.Text) > 4096)
+                {
+                    MessageBox.Show("This is madness!!!", "Ahtung!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TBDataSize.Text = Properties.Settings.Default.DataSize.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.DataSize = Convert.ToInt32(TBDataSize.Text);
+                }
                 //Сохранение
                 Properties.Settings.Default.Save();
             }
@@ -68,6 +84,7 @@ namespace Pinger
                 MessageBox.Show(ex.ToString());
                 TBTimeOut.Text = Properties.Settings.Default.TimeOut.ToString();
                 TBTtl.Text = Properties.Settings.Default.Ttl.ToString();
+                TBDataSize.Text = Properties.Settings.Default.DataSize.ToString();
             }
         }
 

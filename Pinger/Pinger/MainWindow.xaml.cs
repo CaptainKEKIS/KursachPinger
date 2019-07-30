@@ -27,6 +27,7 @@ namespace Pinger
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         void MyTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -34,6 +35,8 @@ namespace Pinger
             e.Handled = new Regex("[^0-9]").IsMatch(e.Text);//TODO: запилить шаблон если реально
         }
 
+
+        #region Range, Single
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -64,11 +67,17 @@ namespace Pinger
 
             List<Ip> IPs = Ip.Range(FirstIp, LastIp);
             dgPingResult.ItemsSource = IPs;
+            RangePing(IPs);
+            
+        }
 
-            foreach(Ip ip in IPs)
+        private void RangePing(List<Ip> IPs)
+        {
+            PingStatistics Statistics = new PingStatistics();
+            foreach (Ip ip in IPs)
             {
+                Statistics.Sent++;
                 Task.Run(() => ip.PingSender());
-                
             }
         }
 
@@ -85,23 +94,34 @@ namespace Pinger
                 MessageBox.Show("Неправильно задан  IP-адрес", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             Ip Addr = new Ip();
             Addr.Address = IPAddress;
             List<Ip> IPs = new List<Ip>();
             IPs.Add(Addr);
             dgPingTable.ItemsSource = IPs;
-
-            foreach (Ip ip in IPs)
-            {
-                Task.Run(() => ip.PingSender());
-            }
+            IPs[0].PingSender();
         }
-
+        #endregion
+       
+        #region Saved
         private void SavedButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        private void AddHost_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteHost_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        #endregion
         private void jhghj(object sender, KeyEventArgs e)
         {
             if ((sender as TextBox).Text.Length >= 3)

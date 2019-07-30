@@ -116,9 +116,11 @@ namespace Pinger
         {
             int TimeOut = Properties.Settings.Default.TimeOut;
             int Ttl = Properties.Settings.Default.Ttl;
+            int DataSize = Properties.Settings.Default.DataSize;
             PingOptions POptions = new PingOptions(Ttl, false);
-            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            byte[] PingBuffer = Encoding.ASCII.GetBytes(data);
+            byte[] PingBuffer = new byte[DataSize];
+            Random rnd = new Random();
+            rnd.NextBytes(PingBuffer);
             Ping Piping = new Ping();
             try
             {
