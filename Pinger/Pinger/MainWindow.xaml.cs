@@ -23,13 +23,12 @@ namespace Pinger
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        List<Ip> SavedIps = new List<Ip>();
         public MainWindow()
         {
             InitializeComponent();
-
+            savedDGPingResult.ItemsSource = SavedIps;
         }
-
         void MyTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]").IsMatch(e.Text);//TODO: запилить шаблон если реально
@@ -110,9 +109,12 @@ namespace Pinger
 
         }
 
-        private void AddHost_Click(object sender, RoutedEventArgs e)
+        private void AddHost_Click(object sender, RoutedEventArgs e) //не обновляется таблица
         {
-
+            Ip ip = new Ip();
+            ip.Address = IPAddress.Parse("172.16.18.10");
+            ip.HostName = "Host";
+            SavedIps.Add(ip);
         }
 
         private void DeleteHost_Click(object sender, RoutedEventArgs e)
