@@ -8,11 +8,13 @@ using System.Net.NetworkInformation;
 using System.Net;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Pinger
 {
     class Ip : INotifyPropertyChanged
     {
+        AutoResetEvent resetEvent = new AutoResetEvent(false);
         PingReply Reply;
         private IPAddress _address;
         private string _hostName;
@@ -114,6 +116,7 @@ namespace Pinger
 
         public void PingSender()
         {
+
             int TimeOut = Properties.Settings.Default.TimeOut;
             int Ttl = Properties.Settings.Default.Ttl;
             int DataSize = Properties.Settings.Default.DataSize;
@@ -122,17 +125,42 @@ namespace Pinger
             Random rnd = new Random();
             rnd.NextBytes(PingBuffer);
             Ping Piping = new Ping();
+            /*
             try
             {
-                Reply = Piping.Send(_address, TimeOut, PingBuffer, POptions);
+                Reply = Piping.SendAsync(_address, TimeOut, PingBuffer, POptions);
             }
             catch (Exception)
             {
                 MessageBox.Show("Fatal error!!!");
                 return;
             }
-            Status = Reply.Status.ToString();
+            
+            */
+            Piping.PingCompleted += new PingCompletedEventHandler(PingComplete);
+            Piping.SendAsync(_address, TimeOut, PingBuffer, POptions);
+            
+        }
 
+        private void PingComplete(object sender, PingCompletedEventArgs e)
+        {
+            if (e.Cancelled){
+                MessageBox.Show("Ping Canceled");
+                ((AutoResetEvent)e.UserState).Set();
+            }
+            else if (e.Error != null){
+                MessageBox.Show("Fatal error!!!" + e.Error);
+                ((AutoResetEvent)e.UserState).Set();
+            }
+            else {
+                Reply = e.Reply;
+                PingResult(Reply);
+            }
+        }
+
+        private void PingResult(PingReply Reply)
+        {
+            Status = Reply.Status.ToString();
             if (Reply.RoundtripTime.ToString() == "0" && Reply.Status.ToString() == "Success")
             {
                 Delay = "<1";
@@ -141,7 +169,7 @@ namespace Pinger
             {
                 Delay = Reply.RoundtripTime.ToString();
             }
-            
+
             try//TODO: Починить отображение имени хоста
             {
                 HostName = Dns.GetHostEntry(_address).HostName;
